@@ -67,7 +67,7 @@ const logins = async (email, res) => {
   //Access token
   const access_token = jwt.sign(
     { id: user._id, name: user.name, email: user.email },
-    process.env.JWT_SECRET,
+    process.env.JWT_SECRET_KIWI,
     {
       expiresIn: "1h",
     }
@@ -75,7 +75,7 @@ const logins = async (email, res) => {
   //Refresh token
   const refresh_token = jwt.sign(
     { id: user._id, name: user.name, email: user.email },
-    process.env.REFRESH_JWT_SECRET,
+    process.env.REFRESH_JWT_SECRET_KIWI,
     {
       expiresIn: "1.5h",
     }
@@ -103,12 +103,12 @@ const refreshTokens = async (refreshToken, res) => {
     return res.status(401).json({ message: "Algo ocurrio mal" });
   }
 
-  const decoded = jwt.verify(refreshToken, process.env.REFRESH_JWT_SECRET);
+  const decoded = jwt.verify(refreshToken, process.env.REFRESH_JWT_SECRET_KIWI);
   const user = await User.findOne({ email: decoded.email });
   if (!user) {
     return res.status(401).json({ message: "Algo ocurrio mal" });
   }
-  const new_token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+  const new_token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KIWI, {
     expiresIn: "1h",
   });
 
@@ -133,7 +133,7 @@ const forgotPasswords = async (email, res) => {
     user = await User.findOne({ email });
     const token = jwt.sign(
       { id: user._id, email: user.email },
-      process.env.JWT_SECRET_RESET,
+      process.env.JWT_SECRET_RESET_KIWI,
       {
         expiresIn: "1h",
       }
@@ -217,7 +217,7 @@ const createNewPasswords = async (data, res) => {
   let pwdEncrypt;
 
   try {
-    jwtPayload = jwt.verify(resetToken, process.env.JWT_SECRET_RESET);
+    jwtPayload = jwt.verify(resetToken, process.env.JWT_SECRET_RESET_KIWI);
     user = await User.findOne({ email: jwtPayload.email });
   } catch (error) {
     return {
