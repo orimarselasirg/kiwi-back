@@ -1,0 +1,44 @@
+[
+    {
+        "identification": "723394833",
+        "name" : "Rami",
+        "lastName": "Grisales",
+        "phone" : "123456",
+        "email" : "ramiro@gmail.com"
+    },
+    {
+        "identification": "9876543",
+        "name" : "Rodra",
+        "lastName": "perez",
+        "phone" : "45678",
+        "email" : "rodra@gmail.com"
+    },
+    {
+        "identification": "56789",
+        "name" : "florchu",
+        "lastName": "tab",
+        "phone" : "1094746",
+        "email" : "florchu@gmail.com"
+    },
+    {
+        "identification": "23456",
+        "name" : "nat",
+        "lastName": "Nati",
+        "phone" : "567",
+        "email" : "nat@gmail.com"
+    },
+    {
+        "identification": "0987654",
+        "name" : "Orl",
+        "lastName": "Rod",
+        "phone" : "8628374",
+        "email" : "orl@gmail.com"
+    },
+    {
+        "identification": "293464",
+        "name" : "Diego",
+        "lastName": "Can",
+        "phone" : "27203",
+        "email" : "diego@gmail.com"
+    }
+]

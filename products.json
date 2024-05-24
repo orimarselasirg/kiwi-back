@@ -1,0 +1,46 @@
+[
+    {
+        "product" : "ACEITE DE MOTOR 15W40CK4",
+        "brand" : "CHEVRON",
+        "partnumber": "CHV90922TT"
+    },
+    {
+        "product" : "ACEITE DE CAJA 80W90",
+        "brand" : "CHEVRON",
+        "partnumber": "012TT"
+    },
+    {
+        "product" : "ACEITE DE TRANSMISION 85W140",
+        "brand" : "CHEVRON",
+        "partnumber": "015TT"
+    },
+    {
+        "product" : "GRASA MULTIPROPOSITO",
+        "brand" : "GENERICA",
+        "partnumber": "5183TT"
+    },
+    {
+        "product" : "REFRIGERANTE",
+        "brand" : "CHEVRON",
+        "partnumber": "049"
+    },
+    {
+        "product" : "FILTRO ACEITE",
+        "brand" : "DONALDSON",
+        "partnumber": "P559000"
+    },{
+        "product" : "FILTRO COMBUSITBLE",
+        "brand" : "FLEETGUARD",
+        "partnumber": "FS19765"
+    },
+    {
+        "product" : "FILTRO DE AIRE",
+        "brand" : "DONADLSON",
+        "partnumber": "P613336"
+    },
+    {
+        "product" : "FILTRO HIDRAULICO",
+        "brand" : "DONALDSON",
+        "partnumber": "P000099"
+    }
+]
