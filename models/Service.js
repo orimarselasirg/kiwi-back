@@ -40,7 +40,11 @@ const services  = new Schema({
     comments : {
         type : String,
         required : false,    
-    }
+    },
+    organizationId: {
+        type: String,
+        required: true
+    },
 })
 
 module.exports = model('Services', services)

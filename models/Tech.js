@@ -12,7 +12,11 @@ const techSchema = Schema({
     status: {
         type: Boolean,
         default: true
-    }
+    },
+    organizationId: {
+        type: String,
+        required: true
+    },
 }, {
     timestamps: true,
     versionKey: false

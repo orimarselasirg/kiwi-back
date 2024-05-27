@@ -20,7 +20,7 @@ const loadDb = async(req, res) => {
 
 const createService = async(req, res) =>{
     try {
-        res.status(200).json(await createServices(req.body))    
+        res.status(200).json(await createServices(req.body, req.headers.organization_id))    
     } catch (error) {
         console.log({
             name : error.name,
@@ -32,7 +32,7 @@ const createService = async(req, res) =>{
 
 const getAllService = async(req, res) =>{
     try {
-        res.status(200).json(await getAllServices())    
+        res.status(200).json(await getAllServices(req.headers.organization_id))    
     } catch (error) {
         console.log({
             name : error.name,

@@ -4,7 +4,7 @@ const { ERROR } = require('.././constans')
 
 const getAllUser = async (req, res) => {
     try {
-        res.status(200).json(await getAllUsers())
+        res.status(200).json(await getAllUsers(req.headers.organization_id))
     } catch (error) {
         console.log({
             name: error.name,

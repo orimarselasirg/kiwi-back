@@ -21,7 +21,8 @@ const registerValidator = async (req, res, next) => {
         }
 
         // Password validation
-        const validPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,16}$/;
+        // const validPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,16}$/;
+        const validPwd = /^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,16}$/;
 
         if (!validPwd.test(password)) {
             return res.status(401).json({

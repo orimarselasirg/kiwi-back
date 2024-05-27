@@ -40,7 +40,6 @@ const refreshToken = async (req, res) => {
 }
 
 const forgotPassword = async (req, res) => {
-    console.log(req)
     try {
         const { email } = req.body
         res.status(200).send(await forgotPasswords(email, res));

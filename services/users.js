@@ -6,9 +6,22 @@ const { USER_NOT_FOUND,
     ROLE_ADMIN,
     ROLE_USER } = require('../constans')
 
-const getAllUsers = async () => {
-    const allUsers = await User.find()
-    return allUsers
+const getAllUsers = async (organizationId) => {
+    try {
+        const allUsers = await User.find({organizationId})
+        if(allUsers.length === 0) {
+            return {
+                status: false,
+                message: "No existen usuarios"
+            }
+        }
+        return allUsers
+    } catch (error) {
+        return {
+            status: false,
+            message: "No existen usuarios asociados a la organizacion"
+        }
+    }
 }
 
 const getAllUserById = async (data) => {

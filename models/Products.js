@@ -13,7 +13,11 @@ const products = new Schema({
         type : String,
         required : true,
         unique: true
-    }
+    },
+    organizationId: {
+        type: String,
+        required: true
+    },
 })
 
 module.exports = model('Products', products)

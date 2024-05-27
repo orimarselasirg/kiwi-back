@@ -1,12 +1,25 @@
 const Product = require("../models/Products");
 
-const getProduct = async() => {
-    const products = await Product.find()
-    return products
+const getProduct = async(organizationId) => {
+    try {
+        const products = await Product.find({organizationId})
+        if(products.length === 0) {
+            return {
+                status: false,
+                message: "No hay productos creados"
+            }
+        }
+        return products
+    } catch (error) {
+        return {
+            status: false,
+            message: "No productos asociados a esta organizacion",
+        }
+    }
 }
 
-const createProduct = async(product) => {
-    const productCreated = await Product.create(product)
+const createProduct = async(product, organizationId) => {
+    const productCreated = await Product.create({...product, organizationId: organizationId})
     return {
         status: "Product created",
         msg: productCreated

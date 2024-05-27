@@ -1,16 +1,16 @@
 const {Schema, model} = require('mongoose');
 
-const client = new Schema({
+const organizations = new Schema({
+    companyName: {
+        type: String,
+        required: true
+    },
     identification: {
         type: String,
         unique: true,
         required: true
     },
-    name: {
-        type: String,
-        required: true
-    },
-    lastName: {
+    contactName: {
         type: String,
         required: true
     },
@@ -22,14 +22,18 @@ const client = new Schema({
         type: String,
         required: true
     },
-    license_plates: {
+    usersId: {
         type: [],
         required: false
     },
-    organizationId: {
-        type: String,
-        required: true
-    } 
+    status: {
+      type: Boolean,
+      default: true
+    },
+    isDelete: {
+      type: Boolean,
+      default: false
+    }
 })
 
-module.exports = model('Client', client)
+module.exports = model('Organizations', organizations)

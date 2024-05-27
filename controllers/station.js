@@ -4,7 +4,7 @@ const { getStation, createStation, deleteStation } = require("../services/statio
 
 const getStations = async (req, res) => {
     try {
-        res.status(200).send(await getStation())
+        res.status(200).send(await getStation(req.headers.organization_id))
     } catch (error) {
         console.log({
             name: error.name,
@@ -16,7 +16,7 @@ const getStations = async (req, res) => {
 
 const createStations = async (req, res) => {
     try {
-        res.status(200).send(await createStation(req.station))
+        res.status(200).send(await createStation(req.body, req.headers.organization_id))
     } catch (error) {
         console.log({
             name: error.name,

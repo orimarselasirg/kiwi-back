@@ -3,7 +3,7 @@ const { getProduct, createProduct, deleteProduct } = require("../services/produc
 
 const getProducts = async(req, res) => {
     try {
-        res.status(200).send(await getProduct())
+        res.status(200).send(await getProduct(req.headers.organization_id))
     } catch (error) {
         console.log({
             name: error.name,
@@ -16,7 +16,7 @@ const getProducts = async(req, res) => {
 const createProducts = async(req, res) => {
     const product = req.body
     try {
-        res.status(200).send(await createProduct(product))
+        res.status(200).send(await createProduct(product, req.headers.organization_id))
     } catch (error) {
         console.log({
             name: error.name,
