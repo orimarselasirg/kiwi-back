@@ -47,16 +47,8 @@ const registers = async (data) => {
     role,
     organizationId
   });
-<<<<<<< HEAD
-
-  //Token creation
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KIWI, {
-    expiresIn: "1h",
-  });
-=======
   
   const token = jwtInstance.tokenGenerator(user._id, '1h')
->>>>>>> a2f2025ee82012df85f92dd7451cee2a3608c789
 
   return {
     status: STATUS_SUCCESS,
