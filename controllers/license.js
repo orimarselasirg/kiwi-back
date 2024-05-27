@@ -3,16 +3,15 @@ const { getLicense, createLicense, deleteLicense } = require('../services/licens
 
 const getLicenses = async(req, res) => {
     try {
-        res.status(200).send(await getLicense())
+        res.status(200).send(await getLicense(req.headers.organization_id))
     } catch (error) {
         console.log(error)
     }
 }
 
 const createLicenses = async(req, res) => {
-    const { license_plate } = req.body;
     try {
-        res.json(await createLicense({license_plate}))
+        res.json(await createLicense(req.body, req.headers.organization_id))
     } catch (error) {
         console.log({
             name: error.name,

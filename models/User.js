@@ -30,6 +30,10 @@ const userSchema = Schema({
     resetToken:{
         type: String,
         default: null
+    },
+    organizationId: {
+        type: String,
+        required: true
     }
 }, {
     timestamps: true,

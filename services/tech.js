@@ -1,9 +1,25 @@
 const Tech = require('../models/Tech');
 const { TECH_NOT_FOUND } = require('../constans')
 
-const getAllTech = async () => {
-    const allTech = await Tech.find()
-    return allTech
+const getAllTech = async (organizationId) => {
+    try {
+        const allTech = await Tech.find({organizationId})
+        console.log('allTech', allTech)
+        if(allTech.length === 0) {
+            // return {
+            //     status: false,
+            //     message: "Sin tecnicos creados"
+            // }
+            return []
+        }
+        return allTech
+        
+    } catch (error) {
+        return {
+            status: false,
+            message: "No existen tecnicos asociados a la organizacion"
+        }
+    }
 }
 
 const getAllTechById = async (data) => {
@@ -17,12 +33,13 @@ const getAllTechById = async (data) => {
     return tech
 };
 
-const createTech = async (data) => {
+const createTech = async (data, organizationId) => {
     const { name, document_dni } = data;
     const newTech = await Tech.create(
         {
             name,
-            document_dni           
+            document_dni,
+            organizationId          
         })
     return newTech;
 };

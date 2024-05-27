@@ -1,16 +1,31 @@
 const Client = require("../models/Client");
 const License = require("../models/License");
+const Organizations = require("../models/Organizations");
 const { PLATE_CREATED, PLATE_RELATED } = require("../constans");
 const { infoLicense } = require("../helpers/infoLicense");
 
-const getClient = async () => {
-    const clientFound = await Client.find()
-    return {
-        status: "ClientFounded",
-        msg: clientFound
+const getClient = async (organizationId) => {
+    try {
+        const clientFound = await Client.find({organizationId})
+        if(clientFound.length === 0) {
+            return {
+                status: false,
+                message: "Sin clientes creados",
+            }
+        }
+        return {
+            status: true,
+            message: "ClientFounded",
+            msg: clientFound
+        }
+    } catch (error) {
+        return {
+            status: false,
+            message: "No existen clientes asociados a la organizacion",
+        }
     }
 }
-
+// esta se usa cuando el cliente no existe, toma el el input de la licencia, crea y relaciona al cliente nuevo con la licencia
 const getClientByIdAndLicense = async (idClient, license) => {
     const clientFound = await Client.findOne({ identification: idClient })
     const licenseFound = await License.findOne({ license_plate: license })
@@ -62,17 +77,10 @@ const getClientByIdAndLicense = async (idClient, license) => {
         }
     }
 }
-// esta se usa cuando el cliente no existe, toma el el input de la licencia, crea y relaciona al cliente nuevo con la licencia
-const createClient = async (client) => {
-    // const arrClean = Array.from(new Set([...client.license_plates])) //sacar repetidos
-    // client.license_plates = arrClean //modifico el obj
-    // await Promise.all(arrClean.map(async (c, i) => {
-    //     //console.log({plate: c,index: i})
-    //     const licenseFound = await License.findOne({ license_plate: c }) //busca la placa
-    //     //console.log("licenseFound",licenseFound)
-    //     if (!licenseFound) await License.create({ license_plate: c }) //si no la encuentra la crea
-    // }))
-    const clientCreated = await Client.create(client) //creo cliente
+
+
+const createClient = async (client, organizationId) => {
+    const clientCreated = await Client.create({...client, organizationId: organizationId}) //creo cliente
     return {
         status: "Clientcreated",
         msg: clientCreated

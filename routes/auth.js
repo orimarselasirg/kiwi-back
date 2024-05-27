@@ -3,9 +3,11 @@ const router = Router();
 const { login, register, refreshToken, forgotPassword, createNewPassword } = require("../controllers/auth");
 const { loginValidator } = require('../middleware/loginValidator');
 const { registerValidator } = require('../middleware/registerValidator');
+const { validateOrganizationId } = require('../middleware/generalMiddleware');
 
 
 router.post("/auth/login", loginValidator, login);
+// router.post("/auth/register", [registerValidator, validateOrganizationId], register);
 router.post("/auth/register", registerValidator, register);
 //Refresh token
 router.post("/auth/refresh-token", refreshToken);

@@ -15,6 +15,7 @@ const tech = require("./routes/tech");
 const product = require("./routes/product");
 const station = require("./routes/station");
 const types = require("./routes/types.routes");
+const organizations = require("./routes/organization")
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",
@@ -42,5 +43,6 @@ app.use("/api/v1", tech);
 app.use("/api/v1", product);
 app.use("/api/v1", station);
 app.use("/api/v1", types);
+app.use("/api/v1", organizations);
 
 module.exports = { server, io };

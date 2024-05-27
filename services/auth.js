@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Organization = require('../models/Organizations.js')
 const bcrypt = require("bcryptjs");
 const path = require("path");
 const hbs = require("nodemailer-express-handlebars");
@@ -18,37 +19,44 @@ const {
   PWD_SUCCESFULL,
   USER_NOT_FOUND,
 } = require("../constans");
+const { jwtInstance } = require("../helpers/jwt.js");
 
 const registers = async (data) => {
-  const { name, email, password, role } = data;
+  const { name, email, password, role, organizationId } = data;
   //Validacion del rol en el cual solamente debe ser 'Admin' o 'User' en su defecto
   if (role !== ROLE_USER && role !== ROLE_ADMIN && typeof role !== UNDEFINED) {
     return {
       status: ERROR_ROLE,
     };
   }
-
-  let hash = bcrypt.hashSync(password, 10);
-
   const oldUser = await User.findOne({ email });
 
+
+  
   if (oldUser) {
     return {
       status: USER_EXISTS,
     };
   }
-
+  let hash = jwtInstance.encryptPassword(password)
+  
   const user = await User.create({
     name,
     email,
     password: hash,
     role,
+    organizationId
   });
+<<<<<<< HEAD
 
   //Token creation
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KIWI, {
     expiresIn: "1h",
   });
+=======
+  
+  const token = jwtInstance.tokenGenerator(user._id, '1h')
+>>>>>>> a2f2025ee82012df85f92dd7451cee2a3608c789
 
   return {
     status: STATUS_SUCCESS,
@@ -58,28 +66,23 @@ const registers = async (data) => {
 
 const logins = async (email, res) => {
   const user = await User.findOne({ email });
+  const organization = await Organization.findById(user.organizationId)
   if (!user) {
     return {
       status: res.status(400).send({ msg: USER_NOT_FOUND }),
     };
   }
 
-  //Access token
-  const access_token = jwt.sign(
-    { id: user._id, name: user.name, email: user.email },
-    process.env.JWT_SECRET_KIWI,
-    {
-      expiresIn: "1h",
+  if(organization.isDelete) {
+    return {
+      status: false,
+      message: "La organizacion asignada al usuario ha sido borrada"
     }
-  );
-  //Refresh token
-  const refresh_token = jwt.sign(
-    { id: user._id, name: user.name, email: user.email },
-    process.env.REFRESH_JWT_SECRET_KIWI,
-    {
-      expiresIn: "1.5h",
-    }
-  );
+  }
+
+  const access_token = jwtInstance.signToken(user._id, user.name, user.email, '1h')
+  const refresh_token = jwtInstance.refreshToken(user._id, user.name, user.email, '1h')
+
   //Cookie access_token
   res.cookie("access_token", access_token, {
     maxAge: 3600,
@@ -95,6 +98,13 @@ const logins = async (email, res) => {
     token: access_token,
     refresh_token,
     role: user.role,
+    organizationData: {
+      id: organization._id,
+      companyName: organization.companyName,
+      identification: organization.identification,
+      phone: organization.phone,
+      status: true,
+    }
   };
 };
 
@@ -103,14 +113,17 @@ const refreshTokens = async (refreshToken, res) => {
     return res.status(401).json({ message: "Algo ocurrio mal" });
   }
 
-  const decoded = jwt.verify(refreshToken, process.env.REFRESH_JWT_SECRET_KIWI);
+  // const decoded = jwt.verify(refreshToken, process.env.REFRESH_JWT_SECRET_KIWI);
+
+  const decoded = jwtInstance.tokenDecoder(refreshToken)
+
   const user = await User.findOne({ email: decoded.email });
+  
   if (!user) {
     return res.status(401).json({ message: "Algo ocurrio mal" });
   }
-  const new_token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KIWI, {
-    expiresIn: "1h",
-  });
+  
+  const new_token = jwtInstance.tokenGenerator(user._id, '1h')
 
   return {
     message: "Nuevo token de acceso generado",
@@ -131,13 +144,9 @@ const forgotPasswords = async (email, res) => {
 
   try {
     user = await User.findOne({ email });
-    const token = jwt.sign(
-      { id: user._id, email: user.email },
-      process.env.JWT_SECRET_RESET_KIWI,
-      {
-        expiresIn: "1h",
-      }
-    );
+    const token = jwtInstance.refreshToken(user._id, null, user.email, '1h');
+
+    // verificationLink = `${process.env.FRONTEND_URL_DEPLOYED}/auth/new-password/${token}`;
     verificationLink = `${process.env.FRONTEND_URL_DEPLOYED}/auth/new-password/${token}`;
     user.resetToken = token;
     user.save();
@@ -217,7 +226,8 @@ const createNewPasswords = async (data, res) => {
   let pwdEncrypt;
 
   try {
-    jwtPayload = jwt.verify(resetToken, process.env.JWT_SECRET_RESET_KIWI);
+    // jwtPayload = jwt.verify(resetToken, process.env.JWT_SECRET_RESET_KIWI);
+    jwtPayload = jwtInstance.verifyToken(resetToken)
     user = await User.findOne({ email: jwtPayload.email });
   } catch (error) {
     return {
@@ -226,7 +236,8 @@ const createNewPasswords = async (data, res) => {
     };
   }
 
-  pwdEncrypt = bcrypt.hashSync(newPassword, 10);
+  pwdEncrypt = jwtInstance.encryptPassword(newPassword)
+
   user.password = pwdEncrypt;
 
   try {

@@ -11,7 +11,7 @@ const { ERROR } = require('.././constans')
 
 const createTechnician = async (req, res) => {
     try {
-        res.status(200).json(await createTech(req.body))
+        res.status(200).json(await createTech(req.body, req.headers.organization_id))
     } catch (error) {
         console.log({
             name: error.name,
@@ -23,7 +23,7 @@ const createTechnician = async (req, res) => {
 
 const getAllTechnician = async (req, res) => {
     try {
-        res.status(200).json(await getAllTech())
+        res.status(200).json(await getAllTech(req.headers.organization_id))
     } catch (error) {
         console.log({
             name: error.name,

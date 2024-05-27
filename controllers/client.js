@@ -5,7 +5,7 @@ const { createClient, RelatedLicenseClient, getClient, getClientByIdAndLicense, 
 
 const getClients = async(req, res) => {
     try {
-        res.status(200).send(await getClient())
+        res.status(200).send(await getClient(req.headers.organization_id))
     } catch (error) {
         console.log({
             name: error.name,
@@ -32,7 +32,7 @@ const getClientsByIdAndLicenses = async(req, res) => {
 
 const createClients = async(req, res) => {
     try {
-        res.status(200).send(await createClient(req.body))
+        res.status(200).send(await createClient(req.body, req.headers.organization_id))
     } catch (error) {
         console.log({
             name: error.name,

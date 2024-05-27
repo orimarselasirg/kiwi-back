@@ -1,12 +1,26 @@
 const Types = require("../models/Types");
 
-const getTypes = async () => {
-  const allTypes = await Types.find();
-  return allTypes;
+const getTypes = async (organizationId) => {
+  try {
+    const allTypes = await Types.find({organizationId});
+    if(allTypes.length === 0) {
+      return {
+          status: false,
+          message: "Sin tipos de servicios creados"
+      }
+  }
+    return allTypes;
+    
+  } catch (error) {
+    return {
+      status: false,
+      message: "No existen tipos de servicios asociados a la organizacion",
+  }
+  }
 };
 
-const createTypes = async (data) => {
-  const createdType = await Types.create(data);
+const createTypes = async (data, organizationId) => {
+  const createdType = await Types.create({...data, organizationId: organizationId});
   return createdType;
 };
 
