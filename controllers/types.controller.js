@@ -3,7 +3,7 @@ const {ERROR} = require('../constans')
 
 const getType = async(req, res) =>{
     try {
-        res.status(200).json(await getTypes())
+        res.status(200).json(await getTypes(req.headers.organization_id))
     } catch (error) {
         console.log({
             name: error.name,
@@ -18,7 +18,7 @@ const getType = async(req, res) =>{
 
 const createType = async(req, res) =>{
     try {
-        res.status(201).json(await createTypes(req.body))
+        res.status(201).json(await createTypes(req.body, req.headers.organization_id))
     } catch (error) {
         console.log({
             name: error.name,

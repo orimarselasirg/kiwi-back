@@ -5,11 +5,12 @@ const { getAllUser,
     modifyUser,
     deleteUser
 } = require('../controllers/user');
+const { validateOrganizationId } = require("../middleware/generalMiddleware.js");
 const router = Router();
 
-router.get('/user', getAllUser)
-router.get('/getuser', getOneUser_id)
-router.put('/modifyuser', [verifyToken, isAdmin], modifyUser)
-router.delete('/deleteuser', [verifyToken, isAdmin], deleteUser)
+router.get('/user', validateOrganizationId, getAllUser)
+router.get('/getuser', validateOrganizationId, getOneUser_id)
+router.put('/modifyuser', [validateOrganizationId, verifyToken, isAdmin], modifyUser)
+router.delete('/deleteuser', [validateOrganizationId, verifyToken, isAdmin], deleteUser)
 
 module.exports = router

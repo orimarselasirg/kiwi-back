@@ -6,8 +6,13 @@ const license = new Schema({
         unique: true,
         required: true
     },
+    organizationId: {
+        type: String,
+        required: true
+    },
     services : {
-        type: []
+        type: [],
+        default: []
     }    
 })
 

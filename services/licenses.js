@@ -1,13 +1,27 @@
 const Client = require("../models/Client");
 const License = require("../models/License");
 
-const getLicense = async() => {
-    const licenses = await License.find()
-    return licenses
+const getLicense = async(organizationId) => {
+    try {
+        const licenses = await License.find({organizationId})
+        if(licenses.length === 0) {
+            return {
+                status: false,
+                message: "No hay licencias creadas",
+            }
+        }
+        return licenses
+    } catch (error) {
+        return {
+            status: false,
+            message: "No existen placas",
+        }
+        
+    }
 }
 
-const createLicense = async(license) => {
-    const licenseCreated = await License.create(license);
+const createLicense = async(license, organizationId) => {
+    const licenseCreated = await License.create({...license, organizationId: organizationId});
     return {
         status: "license created",
         msg: licenseCreated
