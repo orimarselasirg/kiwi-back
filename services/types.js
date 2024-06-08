@@ -1,8 +1,13 @@
 const Types = require("../models/Types");
 
-const getTypes = async (organizationId) => {
+const getTypes = async (organizationId, page, limit) => {
+  const options = {
+    page: parseInt(page, 10),
+    limit: parseInt(limit, 10),
+    sort: { createdAt: -1 }
+  };
   try {
-    const allTypes = await Types.find({organizationId});
+    const allTypes = await Types.paginate({organizationId}, options);
     if(allTypes.length === 0) {
       return {
           status: false,

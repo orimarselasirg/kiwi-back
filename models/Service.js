@@ -1,4 +1,5 @@
 const {Schema, model} = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const services  = new Schema({
     type :{
@@ -46,5 +47,8 @@ const services  = new Schema({
         required: true
     },
 })
+
+// Apply the plugin
+services.plugin(mongoosePaginate);
 
 module.exports = model('Services', services)

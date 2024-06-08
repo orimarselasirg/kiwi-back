@@ -1,9 +1,14 @@
 const Client = require("../models/Client");
 const License = require("../models/License");
 
-const getLicense = async(organizationId) => {
+const getLicense = async(organizationId, page, limit) => {
+    const options = {
+        page: parseInt(page, 10),
+        limit: parseInt(limit, 10),
+        sort: { createdAt: -1 }
+      };
     try {
-        const licenses = await License.find({organizationId})
+        const licenses = await License.paginate({organizationId}, options)
         if(licenses.length === 0) {
             return {
                 status: false,

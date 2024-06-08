@@ -2,6 +2,7 @@ const Organization = require("../models/Organizations");
 
 
 const getOrganization = async(identification = null) => {
+  
   if(identification) {
     const organization = await Organization.findOne({identification: identification, isDelete: false})
     return {
@@ -12,6 +13,7 @@ const getOrganization = async(identification = null) => {
   }
 
   const organizations = await Organization.find({isDelete: false})
+
   return {
     status: true,
     message: "listado de organizaciones",

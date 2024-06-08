@@ -22,8 +22,9 @@ const createTechnician = async (req, res) => {
 }
 
 const getAllTechnician = async (req, res) => {
+    const { page = 1, limit = 10 } = req.query;
     try {
-        res.status(200).json(await getAllTech(req.headers.organization_id))
+        res.status(200).json(await getAllTech(req.headers.organization_id, page, limit))
     } catch (error) {
         console.log({
             name: error.name,

@@ -1,15 +1,15 @@
 const Tech = require('../models/Tech');
 const { TECH_NOT_FOUND } = require('../constans')
 
-const getAllTech = async (organizationId) => {
+const getAllTech = async (organizationId, page, limit) => {
+    const options = {
+        page: parseInt(page, 10),
+        limit: parseInt(limit, 10),
+        sort: { createdAt: -1 }
+      };
     try {
-        const allTech = await Tech.find({organizationId})
-        console.log('allTech', allTech)
+        const allTech = await Tech.paginate({organizationId}, options);
         if(allTech.length === 0) {
-            // return {
-            //     status: false,
-            //     message: "Sin tecnicos creados"
-            // }
             return []
         }
         return allTech

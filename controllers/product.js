@@ -2,8 +2,9 @@ const { ERROR } = require("../constans")
 const { getProduct, createProduct, deleteProduct } = require("../services/products")
 
 const getProducts = async(req, res) => {
+    const { page = 1, limit = 10 } = req.query;
     try {
-        res.status(200).send(await getProduct(req.headers.organization_id))
+        res.status(200).send(await getProduct(req.headers.organization_id, page, limit))
     } catch (error) {
         console.log({
             name: error.name,

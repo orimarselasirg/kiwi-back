@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const techSchema = Schema({
     name: {
@@ -22,4 +23,6 @@ const techSchema = Schema({
     versionKey: false
 });
 
+// Apply the plugin
+techSchema.plugin(mongoosePaginate);
 module.exports = model('Tech', techSchema);
