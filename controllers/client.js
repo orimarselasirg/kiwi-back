@@ -4,8 +4,9 @@ const { createClient, RelatedLicenseClient, getClient, getClientByIdAndLicense, 
 
 
 const getClients = async(req, res) => {
+    const { page = 1, limit = 10 } = req.query;
     try {
-        res.status(200).send(await getClient(req.headers.organization_id))
+        res.status(200).send(await getClient(req.headers.organization_id, page, limit))
     } catch (error) {
         console.log({
             name: error.name,

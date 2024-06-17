@@ -11,9 +11,14 @@ const createServices = async (data, organizationId) => {
     return service
 }
 
-const getAllServices = async (organizationId) =>{
+const getAllServices = async (organizationId, page, limit) =>{
+    const options = {
+        page: parseInt(page, 10),
+        limit: parseInt(limit, 10),
+        sort: { createdAt: -1 }
+      };
     try {
-        const allServices = await Services.find({organizationId})
+        const allServices = await Services.paginate({organizationId}, options)
         if(allServices.length === 0) {
             return {
                 status: false,

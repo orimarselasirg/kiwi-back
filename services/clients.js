@@ -4,9 +4,14 @@ const Organizations = require("../models/Organizations");
 const { PLATE_CREATED, PLATE_RELATED } = require("../constans");
 const { infoLicense } = require("../helpers/infoLicense");
 
-const getClient = async (organizationId) => {
+const getClient = async (organizationId,page, limit) => {
+    const options = {
+        page: parseInt(page, 10),
+        limit: parseInt(limit, 10),
+        sort: { createdAt: -1 }
+      };
     try {
-        const clientFound = await Client.find({organizationId})
+        const clientFound = await Client.paginate({organizationId}, options);
         if(clientFound.length === 0) {
             return {
                 status: false,

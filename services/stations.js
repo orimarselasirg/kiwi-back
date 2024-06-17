@@ -1,13 +1,14 @@
 const Station = require('../models/Station')
 
-const getStation = async(organizationId) => {
+const getStation = async(organizationId, page, limit) => {
+    const options = {
+        page: parseInt(page, 10),
+        limit: parseInt(limit, 10),
+        sort: { createdAt: -1 }
+      };
     try {
-        const allStations = await Station.find({organizationId})
+        const allStations = await Station.paginate({organizationId}, options)
         if(allStations.length === 0) {
-            // return {
-            //     status: false,
-            //     message: "Sin estaciones creadas"
-            // }
             return []
         }
         return allStations

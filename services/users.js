@@ -6,9 +6,14 @@ const { USER_NOT_FOUND,
     ROLE_ADMIN,
     ROLE_USER } = require('../constans')
 
-const getAllUsers = async (organizationId) => {
+const getAllUsers = async (organizationId, page, limit) => {
+    const options = {
+        page: parseInt(page, 10),
+        limit: parseInt(limit, 10),
+        sort: { createdAt: -1 }
+      };
     try {
-        const allUsers = await User.find({organizationId})
+        const allUsers = await User.paginate({organizationId}, options)
         if(allUsers.length === 0) {
             return {
                 status: false,
